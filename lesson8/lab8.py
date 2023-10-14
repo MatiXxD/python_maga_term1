@@ -13,7 +13,7 @@ from processing import *
 
 
 ##### Signal processing
-obj = SignalProcessing("/home/ilya/Study/labsPython/lesson8/ecg.csv")
+obj = SignalProcessing("ecg.csv")
 obj.readSignal("MLII")
 
 obj.visualize()
