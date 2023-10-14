@@ -30,7 +30,16 @@ class BaseProcessing(ABC):
     @abstractmethod 
     def featureExtraction(self): 
         pass 
- 
+
+    @staticmethod
+    def getPredict(features, etalons):
+        c0 = ((features["mean"] - etalons[0][0])**2 + (features["std"] - etalons[0][1])**2)**(1/2)
+        c1 = ((features["mean"] - etalons[1][0])**2 + (features["std"] - etalons[1][1])**2)**(1/2)
+
+        if c0 < c1:
+            return {"features" : etalons[0], "class" : 0}
+        else:
+            return {"features" : etalons[1], "class" : 1}
  
 
 class SignalProcessing(BaseProcessing): 
@@ -79,7 +88,7 @@ class SignalProcessing(BaseProcessing):
         self._signalFindPeaks(1)
 
     def getShape(self): 
-        return (self.signal.shape)[0] 
+        return (self._signal.shape)[0] 
 
     def featureExtraction(self): 
         rr = self._calculate_RR_intervals()
@@ -91,7 +100,6 @@ class SignalProcessing(BaseProcessing):
         features["std"] = np.std(rr)
 
         return features
-
 
 
 class ImageProcessing(BaseProcessing):
@@ -132,5 +140,3 @@ class ImageProcessing(BaseProcessing):
         self._useGaborFilter(self._createGaborFilter(args))
         temp = np.array(self._processed); temp = temp.flatten()
         return {"mean" : np.mean(temp), "std" : np.std(temp)}
-
-        

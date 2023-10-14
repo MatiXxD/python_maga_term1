@@ -13,19 +13,23 @@ from processing import *
 
 
 ##### Signal processing
-# obj = SignalProcessing("/home/ilya/Study/labsPython/lesson8/ecg.csv")
-# obj.readSignal("MLII")
+obj = SignalProcessing("/home/ilya/Study/labsPython/lesson8/ecg.csv")
+obj.readSignal("MLII")
 
-# obj.visualize()
-# print(obj.getShape())
-# obj.plotPeaks()
-# features = obj.featureExtraction()
-# for k, v in features.items():
-#     print(k, v)
+obj.visualize()
+print(obj.getShape())
+obj.plotPeaks()
+features = obj.featureExtraction()
+for k, v in features.items():
+    print(k, v)
+
+cf1 = SignalProcessing.getPredict(obj.featureExtraction(), [[200, 25], [400, 40]])
+for k, v in cf1.items():
+    print(k, v)
 
 
 ##### Image processing
-imgObj = ImageProcessing("/home/ilya/Study/labsPython/lesson8/chest-xray.tif")
+imgObj = ImageProcessing("chest-xray.tif")
 size = imgObj.getShape()
 print(size[0], "x", size[1], sep="")
 
@@ -37,3 +41,7 @@ for k, v in features.items():
 images = imgObj.getImages()
 for k, v in images.items():
     imgObj.visualize(k, v)
+
+cf2 = ImageProcessing.getPredict(imgObj.featureExtraction(args), [[2, 15], [4, 40]])
+for k, v in cf2.items():
+    print(k, v)
